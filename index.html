@@ -142,6 +142,35 @@
               </p>
             </div>
           </div>
+
+          <div class="col-lg-6 mb-5" data-aos="fade-up" data-aos-delay="">
+          
+            <img src="images/cc-flowchart.png" alt="Image of your project" class="img-fluid">
+          
+          </div>
+          <div class="col-lg-5 ml-auto" data-aos="fade-up" data-aos-delay="100">
+            <div class="mb-4">
+              <h3>Case Claim Discord Bot</h3>
+              <p>
+               The motivation for this project was to create a better system for our technicians at the USD ITS Help Desk to track the tickets that they're working on, but also provide a way for lead technicians to give feedback on how those tickets were handled. 
+             </p>
+              <p>
+              The project uses Discord to manage the front-end side of things, with a series of commands being available to users in order to interact with this bot. Whenever a user types a command, the bot will respond in the chat with helpful information.
+              For example, if a technicians would like to inform everyone that they're working on a particular ticket, they can use the <b>/claim</b> command, which will then send a message displaying the ticket number, and prevent other technicians from working on the same ticket. 
+              </p>
+              <p>
+              We used Python and the <a href="https://discordpy.readthedocs.io/en/stable/"> discord.py</a> library to handle the processing of commands and interactions.
+              Using Python is beneficial because it is taught in the introductory computer science class at USD (COMP-110), which makes it accessible to people that work at the helpdesk.
+
+              For handling quality assurance data, we used a MySQL database hosted on a Synology NAS virtual machine located inside of the helpdesk's office.
+              Using a relational database made it easy to scale as the amount of data increased, and MySQL provides an easy-to-use driver for connecting with Python.
+              </p>
+              <p>
+                I worked with a collaborator to develop the ideas for the front-end of the website, however I was the primary contributor to writing and testing code as well as maintaining the database.
+                More information about this project can be found on our <a href="https://github.com/ITS-Help-Desk/CaseClaim">GitHub page</a>.
+              </p>
+            </div>
+          </div>
         </div>
       </div>
       

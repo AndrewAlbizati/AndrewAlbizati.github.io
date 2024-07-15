@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Unfoldings</title>
+	<style>
+		#info {
+			position: absolute;
+			top: 0px; width: 100%;
+			padding: 5px;
+			text-align:center;
+		}
+		#madewith {
+			top: 5px; width: 100%;
+			padding: 5px;
+			text-align:center;
+		}
+		#content {
+			position: relative;
+			top: 0px; width: 100%;
+			z-index: 1;
+			padding: 3em 0 0 0;
+		}
+		#c {
+			position: fixed;
+			left: 0px;
+			width: 100%;
+			height: 100%;
+		}
+		.list-item {
+			display: inline-block;
+			margin: 1em;
+			padding: 1em;
+			box-shadow: 1px 2px 4px 0px rgba(0,0,0,0.25);
+		}
+		.list-item .scene {
+			width: 200px;
+			height: 200px;
+		}
+		.list-item .description {
+			color: #888;
+			font-size: large;
+			width: 200px;
+			margin-top: 0.5em;
+			text-align:center;
+		}
+		.mywrapper {
+			width: 100%;
+			max-width: 100%;
+			position: absolute;
+			text-align: center;
+		}
+		h1{
+			text-align: center;
+			margin-bottom: 5px;
+			margin-top: 5px;
+		}
+		.back-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: #333;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+        }
+        .back-button:hover {
+            background-color: #575757;
+        }
+	</style>
+</head>
+
+<body>
+	<canvas id="c"></canvas>
+	<div class="mywrapper">
+		<button class="back-button" onclick="window.location.href='../index.html'">Home</button>
+		<h1>Unfoldings of the Tesseract</h1>
+		<div id="infotext">All 261 unfoldings of the 4-dimensional cube.</div>
+		<div id="infotext">Unfoldings highlighted in red have 90 degree rotational symmetry.</div>
+		
+		<div id="content">
+			<div id="info">Rotation speed: <span id="rotatefast", class="fakelink">fast</span> <span id="rotatemedium", class="fakelink", style="text-decoration: underline;">medium</span> <span id="rotateslow", class="fakelink">slow</span> <span id="rotatenone", class="fakelink">off</span></div>
+		</div>
+
+		<script src="https://cdn.rawgit.com/mrdoob/three.js/r92/build/three.min.js"></script>
+		<script src="https://cdn.rawgit.com/mrdoob/three.js/r92/examples/js/controls/OrbitControls.js"></script>
+		<script src="https://cdn.rawgit.com/mrdoob/three.js/r92/examples/js/Detector.js"></script>
+
+		<script id="template" type="notjs">
+			<div class="scene"></div>
+			<div class="description">$</div>
+		</script>
+		
+		<script src="app.js"></script>
+
+		<div id="madewith">Thank you to Moritz Firsching for providing the <a href="https://firsching.ch/mo/198722/unfoldings.html" target="_blank" rel="noopener">unfoldings and rendering code</a></div>
+	</div>
+</body>

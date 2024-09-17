@@ -123,6 +123,47 @@
         <div class="row">
           <div class="col-lg-6 mb-5" data-aos="fade-up" data-aos-delay="">
           
+            <img src="images/film-finder.png" alt="Image of your project" class="img-fluid">
+          
+          </div>
+          <div class="col-lg-5 ml-auto" data-aos="fade-up" data-aos-delay="100">
+            <div class="mb-4">
+              <h3>Film Finder</h3>
+              <p>
+               The motivation for this project was to create an easy-to-use system for finding new movies to watch
+               that I know I will like. I've used movie recommender apps in the past, and I always found that they
+               would provide very inaccurate and irrelevant recommendations for me. After finding a public list of
+               movies and their descriptions, I had the idea of creating an AI model to help me find movies, and from
+               there I created this full-stack application.
+              </p>
+              <p>
+              The project has a front-end website and mobile app which allows for a user to swipe left on movies they dislike,
+              and swipe right on movies that they like. Once they are satisfied, they can click a "Recommend" button, which will then
+              present the user with a list of movies that they are most likely to enjoy.
+              </p>
+              <p>
+                For the frontend, I used Flutter so that I could deploy this application as a website and as a mobile app. I only wrote one
+                codebase, but was able to deploy to web, iOS, Android, as well as a desktop app.
+
+                For the backend, I used Django and SQLite to set up a web API using the Django Rest Framework. This involved setting up multiple
+                authentication-protected API endpoints to allow users to post information about movies they like, as well as get information
+                about recommended movies.
+              </p>
+              <p>
+                For the recommendation algorithm, I used the scikit-learn library with Python to create an AI recommendation model based off
+                of movie descriptions. I first vectorized all of the movie descriptions, and then used cosine similarity to make a recommendation matrix
+                to quickly find similar movies.
+              </p>
+              <p>
+               I deployed the frontend of this project as a website using Firebase,
+               and I deployed the API as a web server using Render. More information about this project can be found on the
+               <a href="https://github.com/AndrewAlbizati/film-finder">GitHub page</a>.
+              </p>
+            </div>
+          </div>
+
+          <div class="col-lg-6 mb-5" data-aos="fade-up" data-aos-delay="">
+          
             <img src="images/ss-design.png" alt="Image of your project" class="img-fluid">
           
           </div>

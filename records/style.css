@@ -1,0 +1,171 @@
+.records-hero {
+    padding-top: 120px;
+    padding-bottom: 30px;
+}
+
+.records-hero h2 {
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.records-hero p {
+    margin-bottom: 0;
+}
+
+.records-controls {
+    margin-bottom: 1.5rem;
+}
+
+.records-controls .form-inline {
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.records-controls label {
+    margin-right: 0.5rem;
+    font-weight: 600;
+}
+
+.record-card {
+    border-radius: 10px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    background: #ffffff;
+    overflow: hidden;
+    margin-bottom: 30px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.record-card img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-bottom: 1px solid #eee;
+}
+
+.record-card-body {
+    padding: 15px 18px 14px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.record-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 0.1rem;
+}
+
+.record-artist {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #777;
+    margin-bottom: 0.35rem;
+}
+
+.record-meta {
+    font-size: 0.85rem;
+    color: #999;
+    margin-bottom: 0.4rem;
+}
+
+.record-rating {
+    font-size: 0.9rem;
+    margin-bottom: 0.4rem;
+}
+
+.record-rating-stars {
+    display: inline-flex;
+    font-size: 1rem;
+    /* overall star size */
+    line-height: 1;
+    margin-right: 6px;
+}
+
+.record-rating-stars .star {
+    position: relative;
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    margin-right: 2px;
+}
+
+/* Base (empty) star */
+.record-rating-stars .star::before {
+    content: '★';
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: #ccc;
+    /* empty color */
+}
+
+/* Full star: entire star filled */
+.record-rating-stars .star.full::before {
+    color: #f5c518;
+    /* filled color (gold-ish) */
+}
+
+/* Half star: left half filled, right half empty */
+.record-rating-stars .star.half::before {
+    background: linear-gradient(to right,
+            #f5c518 0%,
+            #f5c518 50%,
+            #ccc 50%,
+            #ccc 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    /* color comes from gradient */
+}
+
+.record-description {
+    font-size: 0.9rem;
+    color: #555;
+    flex-grow: 1;
+    margin-bottom: 0.35rem;
+}
+
+.record-timestamp {
+    font-size: 0.8rem;
+    color: #aaa;
+    margin-top: 0.25rem;
+}
+
+.records-empty,
+.records-error {
+    text-align: center;
+    padding: 40px 0;
+    color: #888;
+}
+
+#records-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 30px;
+}
+
+@media (max-width: 1200px) {
+    #records-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (max-width: 992px) {
+    #records-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    #records-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    #records-grid {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}

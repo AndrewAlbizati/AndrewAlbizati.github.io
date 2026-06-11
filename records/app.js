@@ -1,14 +1,72 @@
 let records = [];
 let currentSort = 'recent';
+const recordCountEl = document.querySelector('[data-record-count]');
+const averageRatingEl = document.querySelector('[data-average-rating]');
+const medianYearEl = document.querySelector('[data-median-year]');
+const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const albumFallback =
+    "data:image/svg+xml;utf8," +
+    encodeURIComponent(`
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
+          <rect width="600" height="600" fill="#111617"/>
+          <rect x="48" y="48" width="504" height="504" rx="28" fill="#182426" stroke="#315259" stroke-width="8"/>
+          <circle cx="300" cy="300" r="134" fill="#0b0f10" stroke="#86efac" stroke-width="10"/>
+          <circle cx="300" cy="300" r="20" fill="#86efac"/>
+          <text x="300" y="520" text-anchor="middle" fill="#a1b5a6" font-family="IBM Plex Mono, monospace" font-size="34">No Album Art</text>
+        </svg>
+    `);
 
 document.addEventListener('DOMContentLoaded', function () {
+    const body = document.body;
+    const nav = document.querySelector('[data-nav]');
+    const navToggle = document.querySelector('[data-nav-toggle]');
     const sortSelect = document.getElementById('sort-select');
+    const yearNode = document.querySelector('[data-year]');
+
+    if (yearNode) {
+        yearNode.textContent = String(new Date().getFullYear());
+    }
+
+    if (nav && navToggle) {
+        navToggle.addEventListener('click', function () {
+            const isOpen = !body.classList.contains('nav-open');
+            body.classList.toggle('nav-open', isOpen);
+            navToggle.setAttribute('aria-expanded', String(isOpen));
+        });
+
+        document.addEventListener('click', function (event) {
+            if (!body.classList.contains('nav-open')) {
+                return;
+            }
+
+            const target = event.target;
+            if (!(target instanceof Node)) {
+                return;
+            }
+
+            if (nav.contains(target) || navToggle.contains(target)) {
+                return;
+            }
+
+            body.classList.remove('nav-open');
+            navToggle.setAttribute('aria-expanded', 'false');
+        });
+
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape') {
+                body.classList.remove('nav-open');
+                navToggle.setAttribute('aria-expanded', 'false');
+            }
+        });
+    }
+
     sortSelect.addEventListener('change', function () {
         currentSort = this.value;
         sortRecords();
         renderRecords();
     });
 
+    setupRevealAnimation();
     loadRecords();
 });
 
@@ -16,7 +74,7 @@ function loadRecords() {
     const messageEl = document.getElementById('records-message');
     const gridEl = document.getElementById('records-grid');
 
-    messageEl.style.display = 'none';
+    messageEl.hidden = true;
     gridEl.innerHTML = '';
 
     fetch('records.csv')
@@ -56,19 +114,19 @@ function loadRecords() {
 
             if (!records.length) {
                 messageEl.textContent = 'No records found in records.csv yet.';
-                messageEl.className = 'records-empty';
-                messageEl.style.display = 'block';
+                messageEl.hidden = false;
+                updateSummary();
                 return;
             }
 
             sortRecords();
+            updateSummary();
             renderRecords();
         })
         .catch(error => {
             console.error('Error loading records.csv:', error);
             messageEl.textContent = 'Error loading record data. Make sure records.csv is in this folder and accessible.';
-            messageEl.className = 'records-error';
-            messageEl.style.display = 'block';
+            messageEl.hidden = false;
         });
 }
 
@@ -169,12 +227,11 @@ function renderRecords() {
     const messageEl = document.getElementById('records-message');
 
     gridEl.innerHTML = '';
-    messageEl.style.display = 'none';
+    messageEl.hidden = true;
 
     if (!records || !records.length) {
         messageEl.textContent = 'No records to display.';
-        messageEl.className = 'records-empty';
-        messageEl.style.display = 'block';
+        messageEl.hidden = false;
         return;
     }
 
@@ -183,7 +240,7 @@ function renderRecords() {
         const title = escapeHtml(record.title || 'Untitled');
         const artist = escapeHtml(record.artist || 'Unknown Artist');
         const year = record.year ? record.year : '—';
-        const imgUrl = record.imageUrl || '../images/placeholder-album.png';
+        const imgUrl = record.imageUrl || albumFallback;
 
 
         let ratingText;
@@ -207,24 +264,107 @@ function renderRecords() {
         }
 
         html += `
-        <div class="record-card">
-            <img src="${imgUrl}" alt="${title} album art" onerror="this.src='../images/placeholder-album.png';">
+        <article class="record-card reveal">
+            <img src="${imgUrl}" alt="${title} album art" loading="lazy" onerror="this.onerror=null;this.src='${albumFallback}'">
             <div class="record-card-body">
-            <div class="record-title">${title}</div>
-            <div class="record-artist">${artist}</div>
-            <div class="record-meta">Released: ${year}</div>
-            <div class="record-rating">
-                <span class="record-rating-stars">${ratingStars}</span>
-                <span>${ratingText}</span>
+              <div class="record-title">${title}</div>
+              <div class="record-artist">${artist}</div>
+              <div class="record-meta">Released: ${year}</div>
+              <div class="record-rating">
+                  <span class="record-rating-stars">${ratingStars}</span>
+                  <span>${ratingText}</span>
+              </div>
+              <div class="record-description">${description}</div>
+              <div class="record-timestamp">Added: ${timestampLabel}</div>
             </div>
-            <div class="record-description">${description}</div>
-            <div class="record-timestamp">Added: ${timestampLabel}</div>
-            </div>
-        </div>
+        </article>
     `;
     });
 
     gridEl.innerHTML = html;
+    observeRevealNodes(gridEl.querySelectorAll('.reveal'));
+}
+
+function updateSummary() {
+    if (recordCountEl) {
+        recordCountEl.textContent = String(records.length);
+    }
+
+    if (averageRatingEl) {
+        averageRatingEl.textContent = formatAverageRating(records);
+    }
+
+    if (medianYearEl) {
+        medianYearEl.textContent = formatMedianYear(records);
+    }
+}
+
+let revealObserver = null;
+
+function setupRevealAnimation() {
+    if (reducedMotion || !('IntersectionObserver' in window)) {
+        observeRevealNodes(document.querySelectorAll('.reveal'));
+        return;
+    }
+
+    revealObserver = new IntersectionObserver(
+        entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        },
+        {
+            threshold: 0.12,
+            rootMargin: '0px 0px -10% 0px'
+        }
+    );
+
+    observeRevealNodes(document.querySelectorAll('.reveal'));
+}
+
+function observeRevealNodes(nodes) {
+    Array.from(nodes).forEach(node => {
+        if (reducedMotion || !revealObserver) {
+            node.classList.add('is-visible');
+            return;
+        }
+
+        if (!node.classList.contains('is-visible')) {
+            revealObserver.observe(node);
+        }
+    });
+}
+
+function formatAverageRating(recordList) {
+    const ratings = recordList
+        .map(record => record.rating)
+        .filter(rating => typeof rating === 'number' && !isNaN(rating));
+
+    if (!ratings.length) return '—';
+
+    const average = ratings.reduce((sum, rating) => sum + rating, 0) / ratings.length;
+    return `${average.toFixed(1)}/5`;
+}
+
+function formatMedianYear(recordList) {
+    const years = recordList
+        .map(record => record.year)
+        .filter(year => typeof year === 'number' && !isNaN(year))
+        .sort((left, right) => left - right);
+
+    if (!years.length) return '—';
+
+    const middle = Math.floor(years.length / 2);
+
+    if (years.length % 2 === 1) {
+        return String(years[middle]);
+    }
+
+    const median = (years[middle - 1] + years[middle]) / 2;
+    return Number.isInteger(median) ? String(median) : median.toFixed(1);
 }
 
 function ratingToStars(rating) {

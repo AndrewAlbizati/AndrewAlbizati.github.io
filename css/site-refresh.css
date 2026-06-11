@@ -189,7 +189,7 @@ main section[id] {
   display: grid;
   grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
   gap: 1rem;
-  align-items: start;
+  align-items: stretch;
 }
 
 .terminal-window,
@@ -201,6 +201,10 @@ main section[id] {
   border-radius: var(--radius-lg);
   background: linear-gradient(180deg, var(--panel) 0%, rgba(10, 14, 15, 0.98) 100%);
   box-shadow: var(--shadow);
+}
+
+.terminal-window {
+  height: 100%;
 }
 
 .window-bar {
@@ -356,10 +360,16 @@ main section[id] {
 
 .stack-panel {
   display: grid;
+  grid-template-rows: repeat(3, minmax(0, 1fr));
   gap: 1rem;
+  height: 100%;
 }
 
 .mini-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 0;
   padding: 1.1rem;
   background: linear-gradient(180deg, var(--panel-alt) 0%, rgba(12, 17, 18, 0.98) 100%);
 }
@@ -689,6 +699,11 @@ main section[id] {
   .project-grid,
   .contact-grid {
     grid-template-columns: 1fr;
+  }
+
+  .stack-panel {
+    grid-template-rows: none;
+    height: auto;
   }
 }
 

@@ -374,9 +374,13 @@ main section[id] {
   background: linear-gradient(180deg, var(--panel-alt) 0%, rgba(12, 17, 18, 0.98) 100%);
 }
 
-.mini-panel p:last-child {
+.mini-panel p:not(.prompt) {
   margin: 0;
-  color: var(--muted);
+  color: var(--text);
+}
+
+.mini-panel .text-link {
+  margin-top: 0.75rem;
 }
 
 .content-section {

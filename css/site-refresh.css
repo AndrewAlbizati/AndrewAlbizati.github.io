@@ -396,6 +396,7 @@ main section[id] {
 
 .card-grid {
   grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: stretch;
 }
 
 .project-grid {
@@ -407,14 +408,125 @@ main section[id] {
   padding: 1.2rem;
 }
 
+.info-card {
+  position: relative;
+  overflow: hidden;
+  padding: 0;
+  border-color: var(--brand-edge, var(--line));
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.info-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at top right, var(--brand-glow, rgba(134, 239, 172, 0.08)), transparent 42%),
+    linear-gradient(180deg, transparent 0%, rgba(255, 255, 255, 0.015) 100%);
+}
+
+.info-card--viasat {
+  --brand-edge: rgba(92, 199, 255, 0.34);
+  --brand-surface: rgba(16, 43, 52, 0.95);
+  --brand-glow: rgba(92, 199, 255, 0.18);
+}
+
+.info-card--philips {
+  --brand-edge: rgba(86, 138, 255, 0.34);
+  --brand-surface: rgba(15, 30, 63, 0.95);
+  --brand-glow: rgba(86, 138, 255, 0.16);
+}
+
+.info-card--usd {
+  --brand-edge: rgba(37, 126, 205, 0.36);
+  --brand-surface: rgba(10, 31, 58, 0.96);
+  --brand-glow: rgba(49, 156, 243, 0.18);
+}
+
+.job-header {
+  display: grid;
+  grid-template-rows: 88px minmax(120px, auto);
+  gap: 0;
+  margin-bottom: 0.95rem;
+  border-bottom: 1px solid rgba(49, 82, 89, 0.42);
+  background:
+    radial-gradient(circle at 100% 0, var(--brand-glow, rgba(134, 239, 172, 0.12)), transparent 44%),
+    linear-gradient(135deg, var(--brand-surface, rgba(18, 28, 30, 0.95)) 0%, rgba(10, 14, 15, 0.98) 100%);
+}
+
+.job-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 88px;
+  padding: 0.9rem 1.1rem;
+  border-bottom: 1px solid rgba(49, 82, 89, 0.42);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(239, 245, 241, 0.98) 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.job-logo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
+  background-size: 18px 18px;
+  opacity: 0.45;
+}
+
+.job-logo img {
+  display: block;
+  max-width: min(100%, 240px);
+  max-height: 38px;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  position: relative;
+  z-index: 1;
+  transform-origin: center;
+}
+
+.info-card--viasat .job-logo img {
+  transform: scale(1.42);
+}
+
+.info-card--usd .job-logo img {
+  transform: scale(1.58);
+}
+
+.job-header-copy {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1rem 1.15rem;
+}
+
 .card-topline {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   gap: 1rem;
-  align-items: center;
-  margin-bottom: 0.8rem;
+  align-items: flex-start;
+  margin-bottom: 0.7rem;
   color: var(--muted);
   font-size: 0.9rem;
+}
+
+.job-org {
+  color: rgba(236, 245, 238, 0.86);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  line-height: 1.35;
+  min-height: 2.2em;
 }
 
 .status-chip {
@@ -438,10 +550,19 @@ main section[id] {
   font-size: 1.18rem;
 }
 
+.job-header-copy h3 {
+  margin-bottom: 0;
+  line-height: 1.22;
+  min-height: 2.45em;
+}
+
 .info-card ul {
   margin: 0;
-  padding-left: 1.1rem;
+  padding: 0 1.2rem 1.2rem 2.35rem;
   color: var(--muted);
+  position: relative;
+  z-index: 1;
+  flex: 1;
 }
 
 .info-card li + li {
@@ -609,6 +730,28 @@ main section[id] {
 @media (max-width: 640px) {
   .container {
     width: min(var(--container), calc(100% - 1rem));
+  }
+
+  .job-header {
+    grid-template-rows: 80px minmax(112px, auto);
+  }
+
+  .job-logo {
+    min-height: 80px;
+    padding: 0.8rem 1rem;
+  }
+
+  .job-header-copy {
+    padding: 0.95rem 1rem;
+  }
+
+  .job-logo img {
+    max-width: min(100%, 220px);
+    max-height: 34px;
+  }
+
+  .info-card ul {
+    padding: 0 1rem 1rem 2rem;
   }
 
   .hero-section {

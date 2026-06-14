@@ -1,6 +1,6 @@
 title,artist,release_year,album_art_image_url,review,description,timestamp
-AM,Arctic Monkeys,2013,https://i.scdn.co/image/ab67616d0000b2734ae1c4c5c45aabe565499163,3.0,"I really liked the instrumentation of this album, but I wasn't really able to connect with the lyricism.","2025-11-16"
-52nd Street,Billy Joel,1978,https://i.scdn.co/image/ab67616d0000b2731d4675d5a0345bb93686e4b6,4.5,"Great jazzy instrumentation, however it's a bit weaker than The Stranger in terms of lyricism.","2025-11-16"
+AM,Arctic Monkeys,2013,https://i.scdn.co/image/ab67616d0000b2734ae1c4c5c45aabe565499163,3.0,"I really liked the instrumentation of this album, but I wasn't really able to connect with the lyrics.","2025-11-16"
+52nd Street,Billy Joel,1978,https://i.scdn.co/image/ab67616d0000b2731d4675d5a0345bb93686e4b6,4.5,"Great jazzy instrumentation, however it's a bit weaker than The Stranger in terms of writing.","2025-11-16"
 The Stranger,Billy Joel,1977,https://i.scdn.co/image/ab67616d0000b2738a6dbac0b74bd2484189ea5f,5.0,"An incredible album, each song has a different feel and a relatable message.","2025-11-12"
 Desperado,Eagles,1973,https://i.scdn.co/image/ab67616d0000b2732d73b1bb77cee09f0278be04,4.0,"I like the unique concept of the album, and it has some amazing songs on it. A lot of the filler songs don't have much replay value in my opinion.","2025-12-03"
 Eagles,Eagles,1972,https://i.scdn.co/image/ab67616d0000b273c13acd642ba9f6f5f127aa1b,4.5,"Really great first album that showcases the band's great vocal harmonies, I don't like the all the bird noises in Earlybird.","2025-12-31"
@@ -44,6 +44,8 @@ What's Going On,Marvin Gaye,1971,https://i.scdn.co/image/ab67616d0000b273b36949b
 The Romantic,Bruno Mars,2026,https://i.scdn.co/image/ab67616d0000b27344976c150e1850cf4f9f1f9e,4.0,"I liked Bruno Mars' solo return on this album, however I would have liked more diversity in the sound of the songs.","2026-03-20"
 Hotel California,Eagles,1976,https://i.scdn.co/image/ab67616d0000b2734637341b9f507521afa9a778,5.0,"Absolutely incredible album. Incredible production, great songwriting, iconic music.","2026-03-20"
 Battle Studies,John Mayer,2009,https://i.scdn.co/image/ab67616d0000b2731e3dbe4453ed61633c472fbe,4.0,"Very well made and mature album, especially when compared to his first two albums.","2026-03-29"
+Downhill from Everywhere,Jackson Browne,2021,https://i.scdn.co/image/ab67616d0000b273503c4b73a27233070fcafe6e,3.0,"Overall I like this album quite a bit, however I don't like how quickly it switches themes and moods.","2026-06-14"
+
 
 The Search for Everything,John Mayer,2017,https://i.scdn.co/image/ab67616d0000b273c6bfaf942ed981d5c4c922e4,0.0,"","2026-03-29"
 

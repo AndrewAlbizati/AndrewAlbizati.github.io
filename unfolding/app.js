@@ -9,32 +9,56 @@ var scenes = [], renderer;
 var theta=0.0003;
 var rotstate = 0;
 var timeoffset = 0;
-var speedButtons = {};
 init();
 animate();
 
 function init() {
-    speedButtons = {
-        fast: document.getElementById('rotatefast'),
-        medium: document.getElementById('rotatemedium'),
-        slow: document.getElementById('rotateslow'),
-        none: document.getElementById('rotatenone')
-    };
-
-    speedButtons.fast.onclick = function StartAnimation() {
-        updateRotation(0.0018, 'fast');
+    var fastButton = document.getElementById('rotatefast');
+    fastButton.onclick = function StartAnimation() {
+        theta=0.0018;
+        time = Date.now();
+        timeoffset = -theta*time +rotstate +timeoffset;
+        rotstate = time*theta
+        document.getElementById('rotatefast').style.cssText = "text-decoration: underline;"
+        document.getElementById('rotatemedium').style.cssText = ""
+        document.getElementById('rotateslow').style.cssText = ""
+        document.getElementById('rotatenone').style.cssText = ""
     }
 
-    speedButtons.medium.onclick = function StartAnimation() {
-        updateRotation(0.0003, 'medium');
+    var mediumButton = document.getElementById('rotatemedium');
+    mediumButton.onclick = function StartAnimation() {
+        theta=0.0003;
+        time = Date.now();
+        timeoffset = -theta*time +rotstate +timeoffset;
+        rotstate = time*theta
+        document.getElementById('rotatefast').style.cssText = ""
+        document.getElementById('rotatemedium').style.cssText = "text-decoration: underline;"
+        document.getElementById('rotateslow').style.cssText = ""
+        document.getElementById('rotatenone').style.cssText = ""
     }
 
-    speedButtons.slow.onclick = function StartAnimation() {
-        updateRotation(0.00008, 'slow');
+    var slowButton = document.getElementById('rotateslow');
+    slowButton.onclick = function StartAnimation() {
+        theta=0.00008;
+        time = Date.now();
+        timeoffset = -theta*time +rotstate +timeoffset;
+        rotstate = time*theta
+        document.getElementById('rotatefast').style.cssText = ""
+        document.getElementById('rotatemedium').style.cssText = ""
+        document.getElementById('rotateslow').style.cssText = "text-decoration: underline;"
+        document.getElementById('rotatenone').style.cssText = ""
     }
 
-    speedButtons.none.onclick = function StartAnimation() {
-        updateRotation(0, 'none');
+    var noneButton = document.getElementById( 'rotatenone' );
+    noneButton.onclick = function StartAnimation() {
+        theta=0;
+        time = Date.now();
+        timeoffset = -theta*time +rotstate +timeoffset;
+        rotstate = time*theta
+        document.getElementById('rotatefast').style.cssText = ""
+        document.getElementById('rotatemedium').style.cssText = ""
+        document.getElementById('rotateslow').style.cssText = ""
+        document.getElementById('rotatenone').style.cssText = "text-decoration: underline;"
     }
 
     canvas = document.getElementById("c");
@@ -363,23 +387,9 @@ function init() {
         scenes.push( scene );
     }
 
-    renderer = new THREE.WebGLRenderer({canvas: canvas, antialias: true, alpha: true});
-    renderer.setClearColor(0x000000, 0);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-}
-
-function updateRotation(nextTheta, activeButton) {
-    var time = Date.now();
-    timeoffset = -nextTheta * time + rotstate + timeoffset;
-    theta = nextTheta;
-    rotstate = time * theta;
-
-    Object.keys(speedButtons).forEach(function(key) {
-        var button = speedButtons[key];
-        var isActive = key === activeButton;
-        button.classList.toggle('is-active', isActive);
-        button.setAttribute('aria-pressed', String(isActive));
-    });
+    renderer = new THREE.WebGLRenderer({canvas: canvas, antialias: true});
+    renderer.setClearColor(0xffffff, 1);
+    renderer.setPixelRatio(window.devicePixelRatio);
 }
 
 function updateSize() {
@@ -399,10 +409,11 @@ function animate() {
 function render() {
     updateSize();
 
-    renderer.setClearColor(0x000000, 0);
+    renderer.setClearColor(0xffffff);
     renderer.setScissorTest(false);
     renderer.clear();
 
+    renderer.setClearColor(0xe0e0e0);
     renderer.setScissorTest(true);
     var ic = 0;
     scenes.forEach( function(scene) {

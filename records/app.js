@@ -98,7 +98,7 @@ function loadRecords() {
                 const rating = row.review ? parseFloat(row.review) : null;
                 const description = (row.description || '').trim();
                 const timestampRaw = (row.timestamp || '').trim();
-                const timestamp = timestampRaw ? new Date(timestampRaw) : null;
+                const timestamp = parseCsvTimestamp(timestampRaw);
 
                 return {
                     title,
@@ -237,6 +237,10 @@ function renderRecords() {
 
     let html = '';
     records.forEach(record => {
+        if (!isAddedRecord(record)) {
+            return;
+        }
+
         const title = escapeHtml(record.title || 'Untitled');
         const artist = escapeHtml(record.artist || 'Unknown Artist');
         const year = record.year ? record.year : '—';
@@ -258,10 +262,6 @@ function renderRecords() {
         const ratingStars = ratingToStars(record.rating);
         const description = escapeHtml(record.description || '');
         const timestampLabel = formatTimestamp(record.timestamp);
-
-        if (description.length == 0) {
-            return;
-        }
 
         html += `
         <article class="record-card reveal">
@@ -286,16 +286,18 @@ function renderRecords() {
 }
 
 function updateSummary() {
+    const addedRecords = records.filter(isAddedRecord);
+
     if (recordCountEl) {
-        recordCountEl.textContent = String(records.length);
+        recordCountEl.textContent = String(addedRecords.length);
     }
 
     if (averageRatingEl) {
-        averageRatingEl.textContent = formatAverageRating(records);
+        averageRatingEl.textContent = formatAverageRating(addedRecords);
     }
 
     if (medianYearEl) {
-        medianYearEl.textContent = formatMedianYear(records);
+        medianYearEl.textContent = formatMedianYear(addedRecords);
     }
 }
 
@@ -363,8 +365,28 @@ function formatMedianYear(recordList) {
         return String(years[middle]);
     }
 
-    const median = (years[middle - 1] + years[middle]) / 2;
-    return Number.isInteger(median) ? String(median) : median.toFixed(1);
+    return String(years[middle - 1]);
+}
+
+function isAddedRecord(record) {
+    return Boolean((record.description || '').trim());
+}
+
+function parseCsvTimestamp(value) {
+    if (!value) return null;
+
+    // Treat bare YYYY-MM-DD values as local calendar dates so they do not
+    // shift backward in western time zones when rendered.
+    const dateOnlyMatch = value.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+    if (dateOnlyMatch) {
+        const year = parseInt(dateOnlyMatch[1], 10);
+        const month = parseInt(dateOnlyMatch[2], 10);
+        const day = parseInt(dateOnlyMatch[3], 10);
+        return new Date(year, month - 1, day);
+    }
+
+    const parsed = new Date(value);
+    return isNaN(parsed.getTime()) ? null : parsed;
 }
 
 function ratingToStars(rating) {
